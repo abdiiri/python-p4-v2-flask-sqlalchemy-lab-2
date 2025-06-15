@@ -1,0 +1,16 @@
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+import pytest
+
+app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:'
+app.config['TESTING'] = True
+
+db = SQLAlchemy(app)
+
+@pytest.fixture
+def client():
+    with app.app_context():
+        db.create_all()
+        yield app.test_client()
+        db.drop_all()

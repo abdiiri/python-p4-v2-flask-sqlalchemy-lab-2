@@ -1,0 +1,35 @@
+class Customer(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100))
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'name': self.name
+        }
+
+class Item(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100))
+    price = db.Column(db.Float)
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'price': self.price
+        }
+
+class Review(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    comment = db.Column(db.String(255))
+    customer_id = db.Column(db.Integer, db.ForeignKey('customer.id'))
+    item_id = db.Column(db.Integer, db.ForeignKey('item.id'))
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'comment': self.comment,
+            'customer_id': self.customer_id,
+            'item_id': self.item_id
+        }
